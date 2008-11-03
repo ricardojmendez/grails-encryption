@@ -1,0 +1,13 @@
+<plugin name='crypto' version='1.0.3'>
+  <author>Ricardo J. Mendez</author>
+  <authorEmail>ricardo@arquetipos.co.cr</authorEmail>
+  <title>Encryption plugin for Grails</title>
+  <description>Masks encryption and decryption functions, currently integrated with Bouncy
+Castle. This version provides classes for PGP and Blowfish, as well as a
+tool for both generating random passwords and salting / verifying salted
+passwords.
+</description>
+  <resources>
+    <resource>HexCodec</resource>
+  </resources>
+</plugin>
