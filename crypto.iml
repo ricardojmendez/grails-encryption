@@ -28,7 +28,7 @@
     <orderEntry type="library" name="groovy-1.6-beta-1" level="application" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="GROOVY" level="application" />
+    <orderEntry type="library" name="Groovy" level="application" />
     <orderEntry type="library" name="BouncyCastle" level="project" />
     <orderEntry type="module-library">
       <library name="Grails User Library">
@@ -40,7 +40,6 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntryProperties />
   </component>
 </module>
 
