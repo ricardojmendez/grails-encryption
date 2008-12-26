@@ -26,6 +26,7 @@
     <orderEntry type="library" name="GRAILS" level="application" />
     <orderEntry type="library" name="grails-1.0.3" level="application" />
     <orderEntry type="library" name="groovy-1.6-beta-1" level="application" />
+    <orderEntry type="library" name="grails-1.0.4" level="application" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Groovy" level="application" />

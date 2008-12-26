@@ -8,6 +8,8 @@ tool for both generating random passwords and salting / verifying salted
 passwords.
 </description>
   <resources>
+    <resource>UrlMappings</resource>
+    <resource>EncryptedData</resource>
     <resource>HexCodec</resource>
   </resources>
 </plugin>
