@@ -22,6 +22,7 @@ class EncryptedDataTests extends GroovyTestCase {
             assert cipher.save() // Fails because we haven't set an ID
         }
     }
+   
 
 
     void testPassword() {

@@ -58,7 +58,7 @@ class EncryptedData {
         tempPassword = newPassword
     }
 
-    public encrypt(String thePassword, String theData)
+    public encrypt(String theData, String thePassword)
     {
         assert thePassword, "Need a password to continue"
         assert theData, "No data to encrypt"
@@ -68,12 +68,13 @@ class EncryptedData {
         tempPassword = thePassword
     }
 
-    public decrypt(String thePassword)
+    public String decrypt(String thePassword)
     {
         assert encryptedData, "No data to decrypt"
         tempData = Blowfish.decryptBase64(encryptedData, thePassword)
         assert tempData, "Decryption failed"
         tempPassword = thePassword
+        return tempData
     }
 
 
