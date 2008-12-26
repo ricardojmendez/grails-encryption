@@ -103,7 +103,21 @@ class EncryptedData {
     }
 
     static EncryptedData getOrCreate(java.lang.String theId) {
-        EncryptedData item = EncryptedData.get(theId)
+        def item = null
+        try
+        {
+            item = EncryptedData.get(theId)
+        }
+        catch(Throwable t)
+        {
+            // For some reason this call to get is raising an exception if
+            // the key does not exist, when it should simply be returning
+            // null. Handling the exception for now, will test and create a
+            // grails bug report.  Might be caused by the id being assigned.
+
+            // TODO: Test, create bug report
+            item = null
+        }
         if (!item)
         {
             item = new EncryptedData()

@@ -11,7 +11,7 @@ public class KeyCache {
     private Calendar timestamp = Calendar.getInstance()
     
 
-    public boolean getIsExpired(int seconds)
+    public boolean isExpired(int seconds)
     {
         def now = Calendar.getInstance()
         float diff = now.timeInMillis - timestamp.timeInMillis
