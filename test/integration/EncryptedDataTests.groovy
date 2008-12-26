@@ -57,7 +57,7 @@ class EncryptedDataTests extends GroovyTestCase {
 
         EncryptedData loaded = EncryptedData.get('secret-message')
         assert loaded, "Error loading data"
-        assert loaded.encryptedData, "Encrypted data not found"
+        assert loaded.dataItem, "Encrypted data not found"
 
         shouldFail(AssertionError)
         {

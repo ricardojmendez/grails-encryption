@@ -18,7 +18,7 @@ import cr.co.arquetipos.crypto.PasswordTools
  */
 class EncryptedData {
     String id
-    String encryptedData
+    String dataItem
 
     private String tempData = ''
     private String tempPassword = ''
@@ -28,7 +28,7 @@ class EncryptedData {
 
     static constraints = {
         id(size:1..32)
-        encryptedData(size:1..512)
+        dataItem(size:1..512)
     }
 
     static mapping = {
@@ -38,7 +38,7 @@ class EncryptedData {
 
     public setPassword(String newPassword)
     {
-        if (encryptedData)
+        if (dataItem)
         {
             // Re-encrypt the data with the new password
             assert tempPassword, "We don't have a temporary password, so we can't re-encrypt the data. Failing."
@@ -51,10 +51,10 @@ class EncryptedData {
     // Changes the password for the current encrypted data, and re-encrypts
     public changePassword(String oldPassword, String newPassword)
     {
-        assert encryptedData, "No data to change the password for."
-        String decrypted = Blowfish.decryptBase64(encryptedData, oldPassword)
+        assert dataItem, "No data to change the password for."
+        String decrypted = Blowfish.decryptBase64(dataItem, oldPassword)
         assert decrypted, "Invalid old password"
-        encryptedData = Blowfish.encryptBase64(decrypted, newPassword)
+        dataItem = Blowfish.encryptBase64(decrypted, newPassword)
         tempPassword = newPassword
     }
 
@@ -62,16 +62,16 @@ class EncryptedData {
     {
         assert thePassword, "Need a password to continue"
         assert theData, "No data to encrypt"
-        encryptedData = Blowfish.encryptBase64(theData, thePassword)
-        assert encryptedData, "Encryption failed"
+        dataItem = Blowfish.encryptBase64(theData, thePassword)
+        assert dataItem, "Encryption failed"
         tempData = theData
         tempPassword = thePassword
     }
 
     public String decrypt(String thePassword)
     {
-        assert encryptedData, "No data to decrypt"
-        tempData = Blowfish.decryptBase64(encryptedData, thePassword)
+        assert dataItem, "No data to decrypt"
+        tempData = Blowfish.decryptBase64(dataItem, thePassword)
         assert tempData, "Decryption failed"
         tempPassword = thePassword
         return tempData
@@ -83,7 +83,7 @@ class EncryptedData {
         if (!tempData)
         {
             assert tempPassword, 'Unknown password, assign it first'
-            tempData = Blowfish.decryptBase64(encryptedData, tempPassword)
+            tempData = Blowfish.decryptBase64(dataItem, tempPassword)
         }
         return tempData
     }
@@ -92,7 +92,7 @@ class EncryptedData {
     {
         assert tempPassword, 'Unknown password, assign it first'
         tempData = newData
-        encryptedData = Blowfish.encryptBase64(tempData, tempPassword)
+        dataItem = Blowfish.encryptBase64(tempData, tempPassword)
     }
 
 
