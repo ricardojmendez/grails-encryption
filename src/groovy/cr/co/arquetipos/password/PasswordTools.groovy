@@ -1,4 +1,4 @@
-package cr.co.arquetipos.crypto
+package cr.co.arquetipos.password
 import org.apache.commons.codec.binary.Hex
 
 import org.apache.commons.codec.digest.DigestUtils

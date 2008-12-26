@@ -1,6 +1,4 @@
 import cr.co.arquetipos.crypto.Blowfish
-import cr.co.arquetipos.crypto.PasswordTools
-
 /*
     Simple record-based storage for encrypted data.   This was created with
     the intention of storing encrypted passwords, so there are some design
@@ -17,6 +15,7 @@ import cr.co.arquetipos.crypto.PasswordTools
     assigned ids: http://jira.codehaus.org/browse/GRAILS-1984
  */
 class EncryptedData {
+
     String id
     String dataItem
 
@@ -24,7 +23,7 @@ class EncryptedData {
     private String tempPassword = ''
 
 
-    static transients = ['data', 'password']
+    static transients = ['decryptedData', 'password']
 
     static constraints = {
         id(size:1..32)
@@ -78,7 +77,7 @@ class EncryptedData {
     }
 
 
-    public getData()
+    public getDecryptedData()
     {
         if (!tempData)
         {
@@ -88,7 +87,7 @@ class EncryptedData {
         return tempData
     }
 
-    public setData(String newData)
+    public setDecryptedData(String newData)
     {
         assert tempPassword, 'Unknown password, assign it first'
         tempData = newData
@@ -102,5 +101,14 @@ class EncryptedData {
         tempPassword = ''
         tempData = ''
     }
-    
+
+    static EncryptedData getOrCreate(java.lang.String theId) {
+        EncryptedData item = EncryptedData.get(theId)
+        if (!item)
+        {
+            item = new EncryptedData()
+            item.id = theId
+        }
+        return item
+    }
 }

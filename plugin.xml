@@ -10,6 +10,7 @@ passwords.
   <resources>
     <resource>UrlMappings</resource>
     <resource>EncryptedData</resource>
+    <resource>SimplePasswordManagerService</resource>
     <resource>HexCodec</resource>
   </resources>
 </plugin>

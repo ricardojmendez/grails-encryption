@@ -1,4 +1,4 @@
-import cr.co.arquetipos.crypto.PasswordTools
+import cr.co.arquetipos.password.PasswordTools
 
 class PasswordToolsTests extends GroovyTestCase {
 

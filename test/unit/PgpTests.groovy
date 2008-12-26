@@ -1,5 +1,5 @@
 import cr.co.arquetipos.crypto.PGP
-import cr.co.arquetipos.crypto.PasswordTools
+import cr.co.arquetipos.password.PasswordTools
 
 class PgpTests extends GroovyTestCase {
 
