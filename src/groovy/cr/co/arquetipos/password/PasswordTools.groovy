@@ -4,12 +4,21 @@ import org.apache.commons.codec.binary.Hex
 import org.apache.commons.codec.digest.DigestUtils
 import java.security.SecureRandom
 
-// Some functions came originally from http://www.securitydocs.com/library/3439
+/**
+ * Encapsulates several password-related utility functions
+ * Some functions came originally from http://www.securitydocs.com/library/3439
+ */
 class PasswordTools {
     private static String allowedCharacters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@,;.-=+'
 	private static String loginCharacters = '0123456789abcdefghijklmnopqrstuvwxyz.'
 	private static codec = new Hex()
 
+    /**
+     * Generates a random password out of a alowed characters
+     * @param size Password size
+     * @param allowed String comprising the allowed characters
+     * @returns Random password
+     */
     static String generateRandomPassword(int size=10, allowed = allowedCharacters) {
         SecureRandom random = new SecureRandom()
 
@@ -29,6 +38,10 @@ class PasswordTools {
 		return generateRandomPassword(size, loginCharacters)
 	}
 
+    /**
+     * Generates a random salt of a certain size
+     * @param size How many bytes should be in the salt
+     */
 	static byte[] generateSalt(int size=4) {
         SecureRandom random = new SecureRandom()
         def list = []
@@ -97,21 +110,37 @@ class PasswordTools {
         return concatenate(hash, salt)
     }
 
+    /**
+     * Returns a salted password base64 encoded.
+     * @see PasswordTools#saltPassword(String)
+     */
     static String saltPasswordBase64(String password) {
         String encoded = saltPassword(password).encodeBase64()
         return encoded
     }
 
+    /**
+     * Returns a salted password hex-encoded
+     * @see PasswordTools#saltPassword(String)
+     */
     static String saltPasswordHex(String password) {
         String encoded = new String(codec.encode(saltPassword(password)))
         return encoded
     }
 
+    /**
+     * Verifies a password against a hex-encoded digest
+     * @see PasswordTools#checkDigest(String,byte[])
+     */
     static boolean checkDigestHex(String password, String digestHex) {
         byte[] digest = codec.decode(digestHex.bytes)
         return checkDigest(password, digest)
     }
 
+    /**
+     * Verifies a password against a base64-encoded digest
+     * @see PasswordTools#checkDigest(String,byte[])
+     */
     static boolean checkDigestBase64(String password, String digestBase64) {
         byte[] digest = digestBase64.decodeBase64()
         return checkDigest(password, digest)
