@@ -4,14 +4,28 @@ import org.apache.commons.codec.binary.Hex
 import org.apache.commons.codec.digest.DigestUtils
 import java.security.SecureRandom
 
+import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+
 /**
  * Encapsulates several password-related utility functions
  * Some functions came originally from http://www.securitydocs.com/library/3439
  */
 class PasswordTools {
-    private static String allowedCharacters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@,;.-=+'
+  private static String allowedCharacters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@,;.-=+'
 	private static String loginCharacters = '0123456789abcdefghijklmnopqrstuvwxyz.'
 	private static codec = new Hex()
+  private static final boolean HAS_SHA256 = CH.config?.crypto?.useSha256 ?: false
+  static {
+    if(HAS_SHA256) {
+      try {
+        DigestUtils.sha256("foo")
+      } catch(Throwable t) {
+        def e = new NoSuchMethodError("DigestUtils#sha256 error: you probably have 'crypto.useSha256' but a pre-1.4 commons-codec being used. Be sure to check your classpath for duplicates")
+        e.initCause(t)
+        throw e
+      }
+    }
+  }
 
     /**
      * Generates a random password out of a alowed characters
@@ -95,7 +109,7 @@ class PasswordTools {
 
 
     /**
-    * SHA-256 a password and a random salt.
+    * SHA password and a random salt.
     *
     * @param password
     *      String to hash
@@ -105,8 +119,12 @@ class PasswordTools {
     static byte[] saltPassword(String password) {
         byte[] salt = generateSalt(4)
         byte[] pwdBytes = password.getBytes()
-        byte[] hash = DigestUtils.sha256(concatenate(pwdBytes, salt))
-
+        byte[] hash
+        if(HAS_SHA256) {
+          hash = DigestUtils.sha256(concatenate(pwdBytes, salt))
+        } else {
+          hash = DigestUtils.sha(concatenate(pwdBytes, salt))
+        }
         return concatenate(hash, salt)
     }
 
@@ -161,16 +179,23 @@ class PasswordTools {
 
 
         // First section will contain the original hash, the next the salt
+        // SHA-1 hashes are 20-bytes in length
         // SHA-256 hashes are 32-bytes in length
-        byte[][] hs = split(digest, 32);
-		byte[] hash = hs[0];
-		byte[] salt = hs[1];
+        int byteLength = HAS_SHA256 ? 32 : 20
+        byte[][] hs = split(digest, byteLength);
+		    byte[] hash = hs[0];
+		    byte[] salt = hs[1];
 
-		// Update digest object with byte array of clear text string and salt
+		    // Update digest object with byte array of clear text string and salt
         byte[] concat = concatenate(password.getBytes(), salt)
 
-		// Complete hash computation, this is now binary data
-		byte[] pwhash = DigestUtils.sha256(concat)
+		    // Complete hash computation, this is now binary data
+		    byte[] pwhash 
+        if(HAS_SHA256) {
+		      pwhash = DigestUtils.sha256(concat)
+        } else {
+		      pwhash = DigestUtils.sha(concat)
+        }
 
         valid = (hash == pwhash)
 

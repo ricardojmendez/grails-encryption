@@ -12,18 +12,7 @@
 Ant.property(environment:"env")
 grailsHome = Ant.antProject.properties."env.GRAILS_HOME"
 
-def grailsLib = new File(grailsHome, "lib")
-if(!grailsLib.exists()) {
-  ant.fail("Cannot find the Grails library directory (looked in ${grailsLib})")
-}
+ant.echo(message:"As of Crypto 2.0, the dependency on commons-codec 1.4-SNAPSHOT has been abandoned in favor of the stable 1.3 release.", level:'warning')
+ant.echo(message:"This means SHA-256 support has been reverted back to SHA-1.  IF YOU USED THE 1.X RELEASE OF CRYPTO OR", level:'warning')
+ant.echo(message:"SUPPLY COMMONS-CODEC 1.4 YOURSELF, set the config property 'crypto.useSha256' to true in Config.groovy.", level:'warning')
 
-// Upgrade commons-codec
-// (Yes, this is a dangerous way to do things.  But we have to do it until Grails
-// supports Ivy for its core libraries, too.)
-ant.delete(verbose:'true', failonerror:'false', quiet:'true') {
-  fileset(dir:"$grailsHome/lib", includes:'**/commons-codec*.jar')
-}
-
-ant.copy(toDir:"$grailsHome/lib", flatten:'true', verbose:'true') {
-  fileset(dir:cryptoPluginDir.absolutePath, includes:'**/commons-codec*.jar') 
-}
