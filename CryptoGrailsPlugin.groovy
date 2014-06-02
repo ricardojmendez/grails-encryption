@@ -1,6 +1,6 @@
 
 class CryptoGrailsPlugin {
-	def version = "2.0"
+	def version = "2.1"
 	def dependsOn = [:]
 
   // TODO Add accent once Grail's UTF-8 bug is fixed
