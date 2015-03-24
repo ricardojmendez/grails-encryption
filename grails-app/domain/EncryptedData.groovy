@@ -16,7 +16,7 @@ import cr.co.arquetipos.crypto.Blowfish
  *
  * <p>Finally, see this bug report when dealing with domain classes with
  * assigned ids: http://jira.codehaus.org/browse/GRAILS-1984
- * 
+ *
  */
 class EncryptedData {
 
@@ -26,7 +26,6 @@ class EncryptedData {
     private String tempData = ''
     private String tempPassword = ''
 
-
     static transients = ['decryptedData', 'password']
 
     static constraints = {
@@ -35,16 +34,15 @@ class EncryptedData {
     }
 
     static mapping = {
-        id generator:'assigned', params:[type:'string']
+        id generator:'assigned'
     }
-
 
     /**
      * Password setter.  If there is a currently existing data item, it
      * requires the previous password to be cached so that it can re-
      * encrypt the data.
      */
-    public setPassword(String newPassword)
+    void setPassword(String newPassword)
     {
         if (dataItem)
         {
@@ -61,7 +59,7 @@ class EncryptedData {
      * Will raise assertion errors if the dataItem has not been set or if
      * there is a password error.
      */
-    public changePassword(String oldPassword, String newPassword)
+    void changePassword(String oldPassword, String newPassword)
     {
         assert dataItem, "No data to change the password for."
         String decrypted = Blowfish.decryptBase64(dataItem, oldPassword)
@@ -73,7 +71,7 @@ class EncryptedData {
     /**
      * Encrypts a data item and stores it.
      */
-    public encrypt(String theData, String thePassword)
+    void encrypt(String theData, String thePassword)
     {
         assert thePassword, "Need a password to continue"
         assert theData, "No data to encrypt"
@@ -87,7 +85,7 @@ class EncryptedData {
      * Decrypts the currently stored data item.  Will raise an assertion error
      * if there isn't an encrypted data item or the password is wrong.
      */
-    public String decrypt(String thePassword)
+    String decrypt(String thePassword)
     {
         assert dataItem, "No data to decrypt"
         assert thePassword, "Empty password not allowed"
@@ -97,12 +95,11 @@ class EncryptedData {
         return tempData
     }
 
-
     /**
      * Getter for the decryptedData property.  Will attempt to decrypt it with
      * the cached password.
      */
-    public getDecryptedData()
+    String getDecryptedData()
     {
         if (!tempData)
         {
@@ -115,9 +112,9 @@ class EncryptedData {
     /**
      * Sets the value for the decrypted data item and encrypts it. It requires
      * that a password was previously set and cached, otherwise call "encrypt"
-     * directly. 
+     * directly.
      */
-    public setDecryptedData(String newData)
+    void setDecryptedData(String newData)
     {
         assert tempPassword, 'Unknown password, assign it first'
         tempData = newData
@@ -128,7 +125,7 @@ class EncryptedData {
     /**
      * Forget all stored passwords and temporary information
      */
-    public void lockDown()
+    void lockDown()
     {
         tempPassword = ''
         tempData = ''
@@ -136,10 +133,10 @@ class EncryptedData {
 
     /**
      * Attempts to load a record of EncryptedData with the id, and if it
-     * cannot find it then creates and returns an empty one. 
+     * cannot find it then creates and returns an empty one.
      */
-    static EncryptedData getOrCreate(java.lang.String theId) {
-        def item = null
+    static EncryptedData getOrCreate(String theId) {
+        def item
         try
         {
             item = EncryptedData.get(theId)

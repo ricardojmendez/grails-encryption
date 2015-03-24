@@ -1,4 +1,4 @@
-import cr.co.arquetipos.password.*
+import cr.co.arquetipos.password.KeyCache
 
 /**
  * Very simple password management service.  It does not aim to replace
@@ -13,8 +13,6 @@ class SimplePasswordManagerService {
 
     // How many seconds is the cache considered live
     public static int cacheDuration = 600
-
-    boolean transactional = true
 
     /**
      * Encrypts and stores a data item using EncryptedData records.  It will
@@ -43,7 +41,7 @@ class SimplePasswordManagerService {
      * @return      Decrypted string
      */
     def retrieve(String key, String encryptionPassword = '') {
-        KeyCache cachedItem = null
+        KeyCache cachedItem
         if (!encryptionPassword)
         {
             cachedItem = (KeyCache) cache[key]
@@ -71,10 +69,8 @@ class SimplePasswordManagerService {
     /**
      * Forgets all cached passwords
      */
-    public static void flushCache()
+    static void flushCache()
     {
         cache = new Hashtable()
     }
-
 }
-    

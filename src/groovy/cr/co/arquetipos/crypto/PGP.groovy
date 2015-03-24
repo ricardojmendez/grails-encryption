@@ -1,36 +1,39 @@
 package cr.co.arquetipos.crypto
-                                 
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.bouncycastle.openpgp.PGPKeyPair
-import org.bouncycastle.openpgp.PGPPublicKey
-import org.bouncycastle.openpgp.PGPPrivateKey
 
-import java.security.*
+import java.security.KeyPair
+import java.security.KeyPairGenerator
+import java.security.SecureRandom
+import java.security.Security
+
+import org.bouncycastle.bcpg.ArmoredOutputStream
+import org.bouncycastle.bcpg.SymmetricKeyAlgorithmTags
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.bouncycastle.openpgp.PGPEncryptedDataGenerator
+import org.bouncycastle.openpgp.PGPEncryptedDataList
+import org.bouncycastle.openpgp.PGPKeyPair
+import org.bouncycastle.openpgp.PGPLiteralData
 import org.bouncycastle.openpgp.PGPLiteralDataGenerator
 import org.bouncycastle.openpgp.PGPObjectFactory
-import org.bouncycastle.openpgp.PGPLiteralData
-import org.bouncycastle.openpgp.PGPEncryptedDataGenerator
-import org.bouncycastle.bcpg.SymmetricKeyAlgorithmTags
-import org.bouncycastle.bcpg.ArmoredOutputStream
+import org.bouncycastle.openpgp.PGPPrivateKey
+import org.bouncycastle.openpgp.PGPPublicKey
+import org.bouncycastle.openpgp.PGPPublicKeyEncryptedData
+import org.bouncycastle.openpgp.PGPPublicKeyRing
 import org.bouncycastle.openpgp.PGPSecretKey
+import org.bouncycastle.openpgp.PGPSecretKeyRing
 import org.bouncycastle.openpgp.PGPSignature
 import org.bouncycastle.openpgp.PGPUtil
-import org.bouncycastle.openpgp.PGPSecretKeyRing
-import org.bouncycastle.openpgp.PGPPublicKeyRing
-import org.bouncycastle.openpgp.PGPEncryptedDataList
-import org.bouncycastle.openpgp.PGPPublicKeyEncryptedData
 
 /**
  * Author: Ricardo
  * Date: Dec 18, 2007
  * Time: 10:45:58 PM
  */
-public class PGP {
+class PGP {
     static final String BCProvider = 'BC'
 
     PGPKeyPair keyPair
     int encryptionAlgorithm = SymmetricKeyAlgorithmTags.BLOWFISH
-    
+
 
     static {
         Security.addProvider(new BouncyCastleProvider());
@@ -248,5 +251,5 @@ public class PGP {
     }
 
 
-    
+
 }

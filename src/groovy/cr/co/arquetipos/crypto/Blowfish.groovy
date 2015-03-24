@@ -24,7 +24,7 @@ class Blowfish {
         byte[] outBytes = new byte[cipher.getOutputSize(data.length)]
         int len = cipher.processBytes(data, 0, data.length, outBytes, 0)
         cipher.doFinal(outBytes, len)
-        return outBytes        
+        return outBytes
     }
 
     /**
