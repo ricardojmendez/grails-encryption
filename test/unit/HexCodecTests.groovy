@@ -1,11 +1,8 @@
 import java.security.SecureRandom
+
 class HexCodecTests extends GroovyTestCase {
 
-    def GroovyObject codec
-    void setUp() {
-        codec = new HexCodec()
-    }
-
+    private codec = new HexCodec()
 
     void testEncoder() {
         String message = "The Encoded Message"
@@ -28,9 +25,7 @@ class HexCodecTests extends GroovyTestCase {
         assert encoded
         byte[] second = codec.decode(encoded)
         len.times { int i ->
-            assertEquals bytes[i], second[i] 
+            assertEquals bytes[i], second[i]
         }
-
-
     }
 }
