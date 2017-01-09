@@ -1,5 +1,5 @@
 class CryptoGrailsPlugin {
-    def version = '2.1'
+    def version = '2.1-SNAPSHOT'
     def grailsVersion = "2.4 > *"
     def title = "Encryption plugin for Grails"
     def author = "Ricardo J. Mendez and Robert Fischer"
